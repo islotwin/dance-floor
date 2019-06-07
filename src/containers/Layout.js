@@ -1,9 +1,9 @@
 import React from 'react'
-import { ActionsRow } from './ActionsRow';
-import { DanceFloor } from './DanceFloor';
+import { ActionsRow } from '../components/actions/ActionsRow';
+import { DanceFloor } from '../components/DanceFloor';
 import styled from 'styled-components'
 import randomColor from 'randomcolor'
-import { Spinner } from './Spinner';
+import { Spinner } from '../components/Spinner';
 
 export class Layout extends React.Component {
   state = {
@@ -18,11 +18,20 @@ export class Layout extends React.Component {
     isMouseDown: false
   }
 
-  tileSize = 100
-
+  tileSize = 150
+  
   componentDidMount() {
-    setTimeout(() => this.setState({ isLoading: false }), 2000)
+    setTimeout(this.t, 2000)
   }
+
+  componentWillUnmount(){
+    clearTimeout(this.t)
+  }
+
+  t = () => {
+    this.setState({ isLoading: false })
+  }
+
   setCanvasCtx = ctx => {
     this.setState({ canvasCtx: ctx })
   }

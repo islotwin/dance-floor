@@ -4,7 +4,6 @@ import styled from 'styled-components'
 export class DanceFloor extends React.Component {
   componentDidMount() {
     const canvas = this.refs.canvas || {}
-    console.log(canvas)
     const canvasCtx = canvas.getContext('2d')
     this.props.setCanvasCtx(canvasCtx)
   }

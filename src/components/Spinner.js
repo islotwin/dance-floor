@@ -25,7 +25,6 @@ const changeColor = keyframes`
   100% {
     color: #FF7777;
   }
-
 `
 
 export const Spinner = styled.div`
