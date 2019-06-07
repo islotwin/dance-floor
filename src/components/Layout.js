@@ -3,6 +3,7 @@ import { ActionsRow } from './ActionsRow';
 import { DanceFloor } from './DanceFloor';
 import styled from 'styled-components'
 import randomColor from 'randomcolor'
+import { Spinner } from './Spinner';
 
 export class Layout extends React.Component {
   state = {
@@ -15,27 +16,25 @@ export class Layout extends React.Component {
   tileSize = 100
 
   componentDidMount() {
-    setTimeout(() => this.setState({ isLoading: false }), 1000)
+    setTimeout(() => this.setState({ isLoading: false }), 2000)
   }
   setCanvasCtx = ctx => {
     this.setState({ canvasCtx: ctx })
   }
   showDanceFloor = (columns, rows) => {
     const size = this.tileSize
-    console.log(columns)
     this.setState({
-      width: parseInt(columns*size),
-      height: parseInt(rows*size)
+      width: (columns*size),
+      height: (rows*size)
     }, () => {
-      for(let x = 0; x < rows; x++) {
-        for(let y = 0; y < columns; y++) {
+      for(let x = 0; x < columns; x++) {
+        for(let y = 0; y < rows; y++) {
           this.drawTile(x*size, y*size)
         }
       }
     })
   }
   drawTile = (x, y) => {
-    console.log(x, y)
     const { canvasCtx } = this.state
     const size = this.tileSize
     canvasCtx.fillStyle = randomColor({ format: "rgb" })
@@ -44,7 +43,7 @@ export class Layout extends React.Component {
   render() {
     const { isLoading, width, height } = this.state
     return (
-      isLoading ? <div>loading...</div>: 
+      isLoading ? <Spinner/> : 
       (
         <StyledLayout >
           <ActionsRow generateDanceFloor={this.showDanceFloor}/>

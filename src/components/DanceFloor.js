@@ -14,15 +14,13 @@ export class DanceFloor extends React.Component {
   render() {
     const { width = 300, height = 500, } = this.props
     return (
-      <Canvas ref="canvas" width={width} height={height}>
-        dance floor
-      </Canvas>
+      <Canvas ref="canvas" width={width} height={height}/>
     )  
   }
 }
 
 const Canvas = styled.canvas`
-  background-color: #f3f3f3;
+  background-color: 'transparent';
   margin: auto;
   display: block;
   padding: 0;
