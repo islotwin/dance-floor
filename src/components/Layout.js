@@ -9,8 +9,13 @@ export class Layout extends React.Component {
   state = {
     isLoading: true,
     canvasCtx: null,
-    width: 300,
-    height: 300
+    width: 0,
+    height: 0,
+    currentPosition: {
+      x: null,
+      y: null
+    },
+    isMouseDown: false
   }
 
   tileSize = 100
@@ -40,6 +45,38 @@ export class Layout extends React.Component {
     canvasCtx.fillStyle = randomColor({ format: "rgb" })
     canvasCtx.fillRect(x, y, size, size)
   }
+  getCurrentTile = ({ clientX, clientY }) => {
+    const { canvasCtx } = this.state
+    const size = this.tileSize
+    const { x: offSetX, y: offSetY } = canvasCtx.canvas.getBoundingClientRect()
+    const x = Math.floor((clientX - offSetX)/size)
+    const y = Math.floor((clientY - offSetY)/size)
+    return { x, y }
+  }
+  changeTileColor = (x, y) => {
+    const size = this.tileSize
+    this.drawTile(x*size, y*size)
+    this.setState({
+      currentPosition: {
+        x,
+        y
+      }
+    })
+  }
+  changeTileColorOnClick = e => {
+    const { x, y } = this.getCurrentTile(e)
+    this.changeTileColor(x, y)
+  }
+  changeTileColorOnMove = e => {
+    const { isMouseDown, currentPosition } = this.state
+    const { x, y } = this.getCurrentTile(e)
+    if(isMouseDown) {
+      return
+    }
+    if(currentPosition.x !== x || currentPosition.y !== y) {
+      this.changeTileColor(x, y)
+    }
+  }
   render() {
     const { isLoading, width, height } = this.state
     return (
@@ -47,7 +84,22 @@ export class Layout extends React.Component {
       (
         <StyledLayout >
           <ActionsRow generateDanceFloor={this.showDanceFloor}/>
-          <DanceFloor setCanvasCtx={this.setCanvasCtx} width={width} height={height}/>
+          <DanceFloor 
+            setCanvasCtx={this.setCanvasCtx} 
+            width={width} 
+            height={height} 
+            changeColorOnClick={this.changeTileColorOnClick}
+            changeColorOnMove={this.changeTileColorOnMove}
+            setMouseDown={isMouseDown => this.setState({ isMouseDown })}
+            onMouseLeave={() => this.setState(
+              { 
+                currentPosition: 
+                  {
+                    x: null,
+                    y: null
+                  }
+              })}
+          />
         </StyledLayout>
       )
     )  

@@ -2,9 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 export class DanceFloor extends React.Component {
-  state = {
-    canvas: null
-  }
   componentDidMount() {
     const canvas = this.refs.canvas || {}
     console.log(canvas)
@@ -12,9 +9,17 @@ export class DanceFloor extends React.Component {
     this.props.setCanvasCtx(canvasCtx)
   }
   render() {
-    const { width = 300, height = 500, } = this.props
+    const { width, height, changeColorOnClick, changeColorOnMove, setMouseDown, onMouseLeave } = this.props
     return (
-      <Canvas ref="canvas" width={width} height={height}/>
+      <Canvas 
+        ref="canvas" 
+        width={width} 
+        height={height} 
+        onMouseDown={e => { setMouseDown(true); changeColorOnClick(e)}}
+        onMouseUp={() => setMouseDown(false)}
+        onMouseMove={e => changeColorOnMove(e)}
+        onMouseLeave={onMouseLeave}
+      />
     )  
   }
 }

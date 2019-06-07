@@ -20,7 +20,7 @@ export const ActionsRow = props => {
 const StyledActionsRow = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px;
+  margin: 30px;
 `
 
 const GenerateButton = styled.button`
